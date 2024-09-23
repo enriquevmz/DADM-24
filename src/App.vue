@@ -1,9 +1,18 @@
 <script setup>
+import {ref} from "vue";
+//modelo 
+const header = ref('App lista de compras');
 </script>
 
 <template>
-<h1> Shopoing Cart </h1>
+<h1> 
+    <i class="material-icons shopping-cart-icon">local_mall</i>
+    {{ header }} 
+    </h1>
 </template>
 
 <style scoped>
+.shopping-cart-icon {
+    font-size: 3rem;
+}
 </style>
