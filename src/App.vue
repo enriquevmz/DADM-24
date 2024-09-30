@@ -9,7 +9,7 @@ const items = ref([
     {id:'3', label: '10 coca cola ligth'}
 ]);
 const newItem = ref(''); 
-const newItemHighPriority = ref(false);
+const newItemHighPriErity = ref(false);
 </script>
 
 <template>
