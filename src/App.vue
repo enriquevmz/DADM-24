@@ -2,14 +2,26 @@
 import { ref } from "vue";
 //modelo 
 const header = ref('App lista de Compras');
+//---- items ----
+//Item model 
 const items = ref([
     {id:'0', label: '10 bolillos'}, 
     {id:'1', label: '1 lata de frijol'}, 
     {id:'2', label: '50 g de queso'},
     {id:'3', label: '10 coca cola ligth'}
 ]);
+//Add item
+const saveItem = () => {
+   items.value.push({id: items.value.length + 1, label: newItem.value});
+   //Clear the input
+   newItem.value = '';
+};
+
+
 const newItem = ref(''); 
-const newItemHighPriErity = ref(false);
+const newItemHighPriority = ref(false);
+
+
 </script>
 
 <template>
@@ -19,7 +31,9 @@ const newItemHighPriErity = ref(false);
 </h1>
 
 <!-- Agrupando en un div las entradas -->
-<form class="add-item fomr" v-on:submit.prevent="items.push({ id: items.length + 1, label: newItem })">
+<form 
+  class="add-item fomr" 
+  v-on:submit.prevent="saveItem()">
     
     <!-- entrada de texto -->
     <input type="text" 
@@ -34,12 +48,12 @@ const newItemHighPriErity = ref(false);
 
     <!-- Boton -->
     <button class="btn btn-primary">
-    Guardar</button>
+    AGREGAR</button>
   
 </form>
     
     <ul>
-        <li v-for="({id,label}, i) in items" :key="id"> {{ i+1 }} {{i%2==0?'🌟':'🛒'}} {{label}} </li>
+        <li v-for="({id,label}, i) in items" :key="id"> {{ i+1 }} {{i%2==0?'🛒':'🌟'}} {{label}} </li>
     </ul>
 </template>
 
