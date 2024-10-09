@@ -40,6 +40,7 @@ const activateEdition = (activate) => {
 <button v-else class="btn btn-primary"  @click="activateEdition(true)">Agregar Articulo</button>
 </div>
 
+
 <!-- Agrupando en un div las entradas -->
 <form 
   class="add-item fomr" 
@@ -58,7 +59,9 @@ const activateEdition = (activate) => {
     </label>
 
     <!-- Boton -->
-    <button class="btn btn-primary">
+    <button 
+    :disabled="newItem.length === 0" 
+    class="btn btn-primary">
     AGREGAR</button>
   
 </form>
