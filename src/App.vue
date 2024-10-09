@@ -65,12 +65,20 @@ const activateEdition = (activate) => {
     AGREGAR</button>
   
 </form>
-    
+<!--Lista Objetos -->
     <ul>
         <li v-for="({label,id, purchased, priority}, i) in items"
          :key="id"
          :class="{strikeout: purchased, priority: priority}"
          class="amazing"> 
+            {{ priority ? "🔥": "🛒"}} {{ label }}
+        </li>
+    </ul>
+<!--Lista Arreglos  -->
+<ul>
+        <li v-for="({label,id, purchased, priority}, i) in items"
+         :key="id"
+         :class="[purchased ? 'strikeout': '', priority ? 'prioroty': '']"> 
             {{ priority ? "🔥": "🛒"}} {{ label }}
         </li>
     </ul>
