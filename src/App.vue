@@ -1,30 +1,58 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 //modelo 
 const header = ref('App lista de Compras');
 //---- items ----
 //Item model 
 const items = ref([
-    {id:'0', label: '10 bolillos', purchased: false, priority: true}, 
-    {id:'1', label: '1 lata de frijol', purchased: true, priority: false}, 
-    {id:'2', label: '50 g de queso', purchased: false, priority: true},
-    {id:'3', label: '10 coca cola ligth', purchased: true, priority: false}
+    {id:'0', label: '10 bolillos', purchased: false, highPriority: true}, 
+    {id:'1', label: '1 lata de frijol', purchased: true, highPriority: false}, 
+    {id:'2', label: '50 g de queso', purchased: false, highPriority: true},
+    {id:'3', label: '10 coca cola ligth', purchased: true, highPriority: false}
 ]);
+
+
 //Add item
 const saveItem = () => {
-   items.value.push({id: items.value.length + 1, label: newItem.value});
-   //Clear the input
-   newItem.value = '';
+    //Metodo para agregar otro item a la lista
+    items.value.push({
+      id: items.value.length + 1, 
+      label: newItem.value,
+      highPriority: newItemHighPriority.value
+    });
+    //reiniciando la entrada de texto
+    newItem.value = '';
+    newItemHighPriority.value = false;
 };
+
 
 //---- formulario -----
  
 const newItem = ref(''); 
 const newItemHighPriority = ref(false);
 const editing = ref(true);
-const activateEdition = (activate) => {
-    editing.value = activate;
+
+
+const doEdit = (edit)=>{
+  editing.value = edit;
+  // Limpiando la entrada de texto
+  // en caso de que se oculte o muestre
+  // el formulario
+  newItem.value = "";
+  newItemHighPriority.value = false;
 };
+const togglePurchased = (item) => {
+  item.purchased = !item.purchased;
+};
+
+ 
+// Propiedad computada
+const characterCount = computed(() => {
+  return newItem.value.length;
+});
+
+// Creando propiedad computada que invierte items de la lista
+const reversedItems = computed(() => [...items.value].reverse());
 
 </script>
 
@@ -36,8 +64,8 @@ const activateEdition = (activate) => {
  </i>
      {{ header }}
 </h1>
-<button v-if="editing" class="btn" @click="activateEdition(false)">Cancelar</button>
-<button v-else class="btn btn-primary"  @click="activateEdition(true)">Agregar Articulo</button>
+<button v-if="editing" class="btn" @click="doEdit(false)">Cancelar</button>
+<button v-else class="btn btn-primary"  @click="doEdit(true)">Agregar Articulo</button>
 </div>
 
 
@@ -49,7 +77,7 @@ const activateEdition = (activate) => {
     
     <!-- entrada de texto -->
     <input type="text" 
-    placeholder="Agregar"  
+    placeholder="Add Item "  
     v-model.trim="newItem">
     
     <!-- Caja de seleccion de prioridad -->
@@ -63,25 +91,35 @@ const activateEdition = (activate) => {
     :disabled="newItem.length === 0" 
     class="btn btn-primary">
     AGREGAR</button>
+    <p class="counter">
+    {{characterCount}} / 200
+  </p>
   
 </form>
-<!--Lista Objetos -->
+
+<!--Lista Objetos-->
     <ul>
-        <li v-for="({label,id, purchased, priority}, i) in items"
+        <li v-for="({label,id, purchased, highPriority}, index) in reversedItems"
+         @click="togglePurchased(reversedItems[index])"
          :key="id"
-         :class="{strikeout: purchased, priority: priority}"
+         :class="{strikeout: purchased, priority: highPriority}"
          class="amazing"> 
             {{ priority ? "🔥": "🛒"}} {{ label }}
         </li>
-    </ul>
-<!--Lista Arreglos  -->
+    </ul> 
+  
+
+<!--Lista Arreglos  
 <ul>
-        <li v-for="({label,id, purchased, priority}, i) in items"
-         :key="id"
-         :class="[purchased ? 'strikeout': '', priority ? 'prioroty': '']"> 
-            {{ priority ? "🔥": "🛒"}} {{ label }}
-        </li>
-    </ul>
+  <li
+      v-for="item in reversedItems" 
+      @click="togglePurchased(item)"
+      v-bind:key="item.id"
+      :class="{ strikeout: item.purchased, priority: item.highPriority }"
+    >
+     {{ label }}
+</li>
+    </ul>-->
     <p v-if="items.length === 0">🥀 NO HAY ELEMENTOS EN LA LISTA 🥀</p>
 </template>
 
