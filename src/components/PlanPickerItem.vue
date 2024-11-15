@@ -9,8 +9,9 @@
   </template>
   
   <script setup>
-  //impoetando ref funtion
-  import {ref} from 'vue';
+  //importando la funcion  para crear propiedad computada 
+
+  import { computed } from 'vue';
   //Usando un macro para
   //deginir las props
   //defineProps(['name','planIcon']);
@@ -18,20 +19,23 @@
     name: {
       type: String,
       required: true
-    }
+    },
+    selecPlan: String
   });
 
   //definiedo event
    const emit = defineEmits(['select'])
   //variable que permite recordar si el plan ha sido seleccionado 
-  const selected = ref(false);
   //funcion que permite cambiar el estado de la variable selected
   const selecPlan = () => {
-    selected.value = ! selected.value;
-  };
   //emitir evento de que ha sido selccionado 
   emit('select', props.name);
-
+  }
+  //creando una propiedad computada 
+  //para  saber si el plan seleccionado 
+  const isSelected = computed(() =>{
+    return props.name === props.selectedPlan;
+  });
  </script>
   
   <style scoped>
