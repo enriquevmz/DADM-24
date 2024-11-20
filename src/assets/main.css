@@ -439,9 +439,9 @@ span#logo {
   border-color: rgba(37, 142, 149, 0.96);
 }
 
-.plans {
-  padding: 0 40px;
-  margin-bottom: 40px;
+.plan {
+  background-color: red;
+  color: #fff;
 }
 
 .plans .plan {
@@ -734,4 +734,9 @@ a {
 a:not(.btn):hover {
   color: #127077;
   text-decoration: underline;
+}
+
+.plan.selected {
+  background-color: #0aebd8;
+  color: #fff;
 }
