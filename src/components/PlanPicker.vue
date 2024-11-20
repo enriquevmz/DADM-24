@@ -1,6 +1,6 @@
 <script setup>
     import PlanPickerItem from './PlanPickerItem.vue';
-    import { ref } from 'vue';
+    import { ref, onMounted} from 'vue';
 
     //creando una referencia reactiva para almacenar el plan seleccionado
     const selectedPlan = ref(null);
@@ -11,6 +11,9 @@
     const selectPlan = (name) =>{
       selectedPlan.value = name;
     };
+
+    // Intentando obtener la refencia al elemnto .plnas
+    console.log("Termnima de ejecutar el script setup🎉");
 
 </script>
 
